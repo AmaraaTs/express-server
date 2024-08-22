@@ -32,12 +32,18 @@ app.post("/users", (req, res) => {
 //
 app.put("/users/:userId", (req, res) => {
   const data = fs.readFileSync("./users.json", { encoding: "utf-8" });
-  const { users } = JSON.parse(data);
-  const findIndex = users.findIndex((user) => user.id === req.params.userId);
+  const { employees } = JSON.parse(data);
+  const findIndex = employees.findIndex(
+    (user) => user.eid === req.params.userId
+  );
   if (findIndex > -1) {
-    users[findIndex].name = req.body.name;
-    fs.writeFileSync("./users.json", JSON.stringify({ users }));
-    res.status(200).json({ user: users[findIndex] });
+    employees[findIndex].firstname = req.body.firstname;
+    employees[findIndex].lastname = req.body.lastname;
+    employees[findIndex].email = req.body.email;
+    employees[findIndex].position = req.body.position;
+    employees[findIndex].profileImg = req.body.profileImg;
+    fs.writeFileSync("./users.json", JSON.stringify({ employees }));
+    res.status(200).json({ user: employees[findIndex] });
   } else {
     res.status(400).json({ message: "Not found user id" });
   }
