@@ -37,11 +37,7 @@ app.put("/users/:userId", (req, res) => {
     (user) => user.eid === req.params.userId
   );
   if (findIndex > -1) {
-    employees[findIndex].firstname = req.body.firstname;
-    employees[findIndex].lastname = req.body.lastname;
-    employees[findIndex].email = req.body.email;
-    employees[findIndex].position = req.body.position;
-    employees[findIndex].profileImg = req.body.profileImg;
+    employees[findIndex] = { ...employees[findIndex], ...req.body };
     fs.writeFileSync("./users.json", JSON.stringify({ employees }));
     res.status(200).json({ user: employees[findIndex] });
   } else {
